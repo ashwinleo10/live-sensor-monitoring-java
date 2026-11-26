@@ -435,5 +435,3 @@ The project uses:
 - Environment variables for JWT secret
 
 Sensitive credentials are not stored in the source code.
-
----
