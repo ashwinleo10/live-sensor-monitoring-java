@@ -125,10 +125,6 @@ The dashboard uses **API polling** for automatic updates. It requests the latest
 
 ---
 
-
-
----
-
 # Prerequisites
 
 Install the following before running the project:
