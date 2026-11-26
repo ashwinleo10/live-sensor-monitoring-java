@@ -194,6 +194,79 @@ body {
 }
 
 /* =========================
+   Register / Login Switch
+   ========================= */
+
+.register-switch {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    margin-top: 20px;
+
+    color: #777777;
+
+    font-size: 13px;
+}
+
+/* Override the normal button styling */
+.login-form-container .text-button {
+    width: auto;
+    height: auto;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 0;
+
+    background: transparent;
+    color: #111111;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.login-form-container .text-button:hover {
+    background: transparent;
+    color: #555555;
+}
+
+.login-form-container .text-button:active {
+    transform: none;
+}
+
+.login-form-container .text-button:disabled {
+    background: transparent;
+    color: #888888;
+    cursor: not-allowed;
+}
+
+/* =========================
+   Registration Success
+   ========================= */
+
+.register-success {
+    margin-bottom: 18px;
+
+    padding: 11px 12px;
+
+    border-radius: 7px;
+
+    background: #f0fdf4;
+    color: #18794e;
+
+    border: 1px solid #b7ebc6;
+
+    font-size: 13px;
+}
+
+/* =========================
    Dashboard
    ========================= */
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import Login from "./components/Login";
+import Register from "./components/Register";
 import Dashboard from "./components/Dashboard";
 
 import "./App.css";
@@ -12,6 +13,9 @@ function App() {
             localStorage.getItem("jwtToken")
         )
     );
+
+    const [showRegister, setShowRegister] =
+        useState(false);
 
     const handleLogin = () => {
 
@@ -27,11 +31,41 @@ function App() {
         setIsLoggedIn(false);
     };
 
+    const handleRegister = () => {
+
+        setShowRegister(true);
+    };
+
+    const handleRegisterSuccess = () => {
+
+        setShowRegister(false);
+    };
+
+    const handleBackToLogin = () => {
+
+        setShowRegister(false);
+    };
+
     if (!isLoggedIn) {
+
+        if (showRegister) {
+
+            return (
+                <Register
+                    onRegisterSuccess={
+                        handleRegisterSuccess
+                    }
+                    onBackToLogin={
+                        handleBackToLogin
+                    }
+                />
+            );
+        }
 
         return (
             <Login
                 onLogin={handleLogin}
+                onRegister={handleRegister}
             />
         );
     }

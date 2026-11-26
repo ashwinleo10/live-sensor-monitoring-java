@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { loginUser } from "../services/api";
 
-function Login({ onLogin }) {
+function Login({ onLogin, onRegister }) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -128,6 +128,22 @@ function Login({ onLogin }) {
                             </button>
 
                         </form>
+
+                        <div className="register-switch">
+
+                            <span>
+                                New user?
+                            </span>
+
+                            <button
+                                type="button"
+                                onClick={onRegister}
+                                className="text-button"
+                            >
+                                Register
+                            </button>
+
+                        </div>
 
                     </div>
 
