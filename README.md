@@ -759,37 +759,32 @@ Because the application uses JPA/Hibernate with MySQL persistence, sensor data r
 
 ---
 
-# Assumptions and Technical Decisions
+## Technologies, Assumptions & Technical Decisions
 
-### API Polling
+### Chosen Technologies
 
-The dashboard uses 5-second API polling instead of WebSockets.
+- **Java + Spring Boot** – Used to build the backend REST APIs and implement the core sensor monitoring logic.
+- **Spring Security + JWT** – Used for user authentication, authorization and protected dashboard APIs.
+- **MySQL + JPA/Hibernate** – Used for persistent storage of users, sensor readings and alerts.
+- **React** – Used to build the dashboard for displaying live sensor data, sensor status and alerts.
+- **Java Sensor Simulator** – Used to generate and send sensor readings every 2 seconds for S1 and S2.
+- **HTTP REST APIs + Polling** – Used for communication between the simulator, backend and dashboard.
 
-The assessment allows either WebSockets or API polling for live updates, and polling keeps the implementation simple while satisfying the requirement.
+### Assumptions
 
-### Sensor Reading Authentication
+- The assessment defines two sensors, **S1 and S2**, so the system currently monitors these two sensor IDs.
+- The independent sensor simulator does not have authentication credentials specified in the assessment. Therefore, `POST /readings` is publicly accessible so the simulator can transmit readings, while dashboard data retrieval APIs require JWT authentication.
+- Sensor readings are considered valid only when temperature is between **20–40°C** and humidity is between **30–80%**.
+- A sensor is considered offline when no valid reading has been received for **10 seconds**.
+- The dashboard uses polling to retrieve updated data automatically.
 
-`POST /readings` is intentionally accessible without JWT authentication.
+### Technical Decisions
 
-The sensor simulator is an independent machine-like client that sends readings to the backend, and the assessment does not specify credentials for the simulator.
-
-Dashboard data retrieval APIs remain protected by JWT authentication.
-
-### Fixed Sensors
-
-The assessment specifies sensors S1 and S2, so the backend currently monitors these two sensors.
-
-### Offline Detection
-
-The backend checks sensor connectivity every 2 seconds.
-
-A sensor becomes OFFLINE when its latest valid reading is older than 10 seconds.
-
-### Server Timestamp
-
-The timestamp for a reading is assigned by the backend rather than trusting a timestamp supplied by the client.
-
-This ensures the backend controls the recorded reading time.
-
----
-
+- **Polling instead of WebSockets:** The assessment allows either WebSockets or API polling. Polling was selected because it is simpler to implement, test and maintain for the scope of this assessment.
+- **JWT-based authentication:** JWT provides stateless authentication for the REST API and is suitable for protecting dashboard endpoints.
+- **BCrypt password hashing:** User passwords are stored as BCrypt hashes rather than plain text.
+- **Database persistence:** Sensor readings and alerts are stored in MySQL so the data remains available after a backend restart.
+- **Duplicate reading prevention:** Each reading has a unique `reading_id`, and duplicate IDs are rejected by the backend.
+- **Environment variables for secrets:** Database passwords and JWT secrets are provided through environment variables rather than being stored directly in the source code.
+- **Alert deduplication:** The backend creates an alert only when a condition becomes active and avoids repeatedly creating alerts while the same condition continues.
+- **Scheduled sensor monitoring:** A scheduled backend task checks sensor connectivity every 2 seconds and creates a `Sensor Disconnected` alert when a sensor has been inactive for more than 10 seconds.
